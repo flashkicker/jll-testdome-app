@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const CommentList = (props) => {
+	const [comments, setComments] = React.useState([])
+	const [comment, setComment] = React.useState("")
+
+	const onChangeHandler = (e) => {
+		setComment(e.target.value)
+	}
+
+	const onPressHandler = (e) => {
+		e.preventDefault()
+		if (comment.length > 0) setComments([...comments, comment])
+		setComment("")
+	}
+
+	return (
+		<div>
+			<form onSubmit={onPressHandler}>
+				<input type="text" value={comment} onChange={onChangeHandler} />
+				<input type="submit" value="Post" />
+			</form>
+			<ul>
+				{comments.map((comment, idx) => {
+					return <li key={idx}>{comment}</li>
+				})}
+			</ul>
+		</div>
+	)
 }
 
-export default App;
+function App() {
+	return (
+		<div className="App">
+			<CommentList />
+		</div>
+	)
+}
+
+export default App
